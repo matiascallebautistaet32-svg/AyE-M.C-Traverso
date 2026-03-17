@@ -1,0 +1,23 @@
+A1= 12 + 8 * 3; 
+Consola.WriteLine(A1);
+
+A2= (12 + 8) * 3;
+Consola.WriteLine(A2);
+
+A3= 50 / 5 + 4 ;
+Consola.WriteLine(A3);
+
+A4= 100 - 10 * 2;
+Consola.WriteLine(A4);
+
+A5= 15 % 2;
+Consola.WriteLine(A5);
+
+A6= 20 % 5;
+Consola.WriteLine(A6);
+
+A8= 10 / 2 * 4;
+Consola.WriteLine(A8);
+
+A10= 5 + 5 * 10 - 2;
+Consola.WriteLine(A10);
