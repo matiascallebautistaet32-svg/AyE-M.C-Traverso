@@ -92,7 +92,7 @@ string Ejercicio5(int edad) {
 
     string resultado;
 
-    if (edad >= 18 && palomitas == "si" )
+    if (edad >= 65 && palomitas == "si" )
     {
         resultado = ("¡Felicidades!Tienes entrada gratuita al cine");
         return resultado;
