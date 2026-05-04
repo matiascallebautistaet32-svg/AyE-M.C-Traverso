@@ -1,0 +1,96 @@
+﻿string abecedario = "abcdefghijklmnñopqrstuvwxyz ";
+
+Funcion2();
+
+string Funcion1()
+{
+    bool esValido = false;
+    string texto = "";
+
+    while (!esValido)
+    {
+        Console.WriteLine("Ingrese el mensaje:");
+        texto = Console.ReadLine().ToLower();
+
+        bool contieneError = false;
+
+        foreach (char caracterUsuario in texto)
+        {
+            
+            if (abecedario.IndexOf(caracterUsuario) == -1)
+            {
+                contieneError = true;
+                break;
+            }
+        }
+
+        if (contieneError)
+        {
+            Console.WriteLine("Error: Contiene caracteres no permitidos.");
+        }
+        else
+        {
+            esValido = true;
+        }
+    }
+    return texto;
+}
+
+void Cifrado(string texto, string abc)
+{
+    Console.WriteLine("Ingrese la clave :");
+    int clave = Convert.ToInt32(Console.ReadLine());
+
+    string resultado = "";
+    foreach (char c in texto)
+    {
+        int pos = abc.IndexOf(c);
+        int nuevaPos = (pos + clave) % abc.Length;
+        if (nuevaPos < 0) nuevaPos += abc.Length;
+        resultado += abc[nuevaPos];
+    }
+    Console.WriteLine("Resultado: " + resultado);
+}
+
+void Descifrado(string texto, string abc)
+{
+    Console.WriteLine("Ingrese la clave:");
+    int clave = Convert.ToInt32(Console.ReadLine());
+
+    string resultado = "";
+    foreach (char c in texto)
+    {
+        int pos = abc.IndexOf(c);
+        int nuevaPos = (pos - clave) % abc.Length;
+        if (nuevaPos < 0) nuevaPos += abc.Length;
+        resultado += abc[nuevaPos];
+    }
+    Console.WriteLine("Resultado: " + resultado);
+}
+
+void Funcion2()
+{
+    string texto = Funcion1();
+    bool ejecutando = true;
+
+    while (ejecutando)
+    { 
+        Console.WriteLine("1. Cifrar");
+        Console.WriteLine("2. Descifrar");
+
+        int numero = Convert.ToInt32(Console.ReadLine());
+
+        switch (numero)
+        {
+            case 1:
+                Cifrado(texto, abecedario);
+                break;
+            case 2:
+                Descifrado(texto, abecedario);
+                break;
+            default:
+                Console.WriteLine("Opcion no valida.");
+                break;
+        }
+    }
+}
