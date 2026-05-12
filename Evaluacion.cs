@@ -80,7 +80,7 @@ void ejercicio4()
     else
     {
        Console.WriteLine("No es un palindromo,ingrese otra palabra");
-        return;
+        ejercicio4();
     }
 }
 ejercicio4();
