@@ -76,6 +76,7 @@ void ejercicio4()
     if (palabra == palabrainvert)
     {
         Console.WriteLine("Su palabra es un palindromo y es " + palabrainvert);
+         return;
     }
     else
     {
