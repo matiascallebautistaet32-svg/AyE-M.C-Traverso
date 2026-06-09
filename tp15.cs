@@ -78,6 +78,7 @@ void ejercicio4()
     }
     Console.WriteLine("El numero mas grande es: " + acum);
 }
+ejercicio4();
 void ejercicio5()
 {
     int[,] matriz = {
@@ -115,7 +116,7 @@ void ejercicio5()
     Console.WriteLine("La suma de la tercer fila es de: " + sumafila3);
     Console.WriteLine("La suma de la cuarta fila es de: " + sumafila4);
 }
-
+ejercicio5();
 void ejercicio6()
 {
     int[,] matriz = {
@@ -144,6 +145,7 @@ void ejercicio6()
 
     }
 }
+ejercicio6();
 
 void ejercicio7()
 {
