@@ -7,7 +7,6 @@
     }
 }
 
-
 void ejercicio2()
 {
     Console.WriteLine("Ingrese su edad:");
