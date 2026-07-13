@@ -1,131 +1,143 @@
-﻿namespace ConsoleAP
+namespace ConsoleApp1
 {
-    class Personaje
+    public struct Personaje
     {
         public string Nombre { get; set; }
         public int Poder { get; set; }
-        public List<string> Items { get; set; }
+        public string[] Items { get; set; } 
 
         public Personaje(string nombre, int poder)
         {
             Nombre = nombre;
             Poder = poder;
-            Items = new List<string>();
+            Items = new string[20];
         }
-
-        public void IntentarRobar(Sala sala)
+        public void robar(Salas sala)
         {
             if (Poder > sala.Dificultad)
             {
-
-                if (Items.Count < 20)
+                bool inventarioLleno = true;
+                for (int j = 0; j < Items.Length; j++)
                 {
-                    Items.Add(sala.Item);
-                    Poder += sala.PoderItem;
-                    Console.WriteLine($"{Nombre} robo {sala.Item}, + {sala.PoderItem} Poder. Poder actual: {Poder}");
+                    if (Items[j] == null)
+                    {
+                        Items[j] = sala.Item;
+                        Poder += sala.Poderitem;
+                        Console.WriteLine($"{Nombre} robo {sala.Item}, +{sala.Poderitem} Poder. Poder actual: {Poder}");
+                        inventarioLleno = false;
+                        break; 
+                    }
                 }
-                else
+
+                if (inventarioLleno)
                 {
-                    Console.WriteLine($"{Nombre} supero la sala, su inventario esta lleno");
+                    Console.WriteLine($"{Nombre} supero la sala, pero su inventario esta lleno.");
                 }
             }
             else
             {
-                Console.WriteLine($"{Nombre} no agarro nada, Dificultad de la sala: {sala.Dificultad}  Poder: {Poder}");
+                Console.WriteLine($"{Nombre} no agarro nada. Dificultad de la sala: {sala.Dificultad}  Su Poder: {Poder}");
             }
         }
 
-        public void MostrarInventario()
+        public void inventario()
         {
-            if (Items.Count == 0)
+            Console.Write(" Items: ");
+            bool tieneItems = false;
+
+            for (int i = 0; i < Items.Length; i++)
             {
-                Console.WriteLine(" Items: Ninguno");
+                if (Items[i] != null)
+                {
+                    Console.Write(Items[i] + " ");
+                    tieneItems = true;
+                }
             }
-            else
+
+            if (!tieneItems)
             {
-                Console.WriteLine(" Items: " + string.Join(", ", Items));
+                Console.Write("Ninguno");
             }
+            Console.WriteLine();
         }
     }
-    class Sala
+
+    public struct Salas
     {
         public int Dificultad { get; set; }
         public string Item { get; set; }
-        public int PoderItem { get; set; }
+        public int Poderitem { get; set; }
 
-        public Sala(int dificultad, string item, int poderItem)
+        public Salas(int dificultad, string item, int poderitem)
         {
             Dificultad = dificultad;
             Item = item;
-            PoderItem = poderItem;
+            Poderitem = poderitem;
         }
     }
 
-    class Program
+    internal class Program
     {
         static void Main(string[] args)
         {
-            Random random = new Random();
+            Random aleatorio = new Random();
 
+            Personaje Fede = new Personaje("Fede", 50);
+            Personaje Cody = new Personaje("Cody", 60);
 
-            Personaje p1 = new Personaje("Fede", 10);
-            Personaje p2 = new Personaje("Cody", 10);
-
-            string[] Items = { "Armadura", "Arma", "Pocion", "Amuleto" };
+            string[] items = { "Espada de Hierro", "Armadura", "Amuleto Magico", "Pocion" };
 
             for (int turno = 1; turno <= 20; turno++)
             {
                 Console.WriteLine($"Turno {turno}");
 
+                Salas salacody = SalaAle(aleatorio, items);
+                Fede.robar(salacody);
 
-                Sala salaP1 = GenerarSalaAleatoria(random, Items);
-                p1.IntentarRobar(salaP1);
-
-
-                Sala salaP2 = GenerarSalaAleatoria(random, Items);
-                p2.IntentarRobar(salaP2);
+   
+                Salas salafede = SalaAle(aleatorio, items);
+                Cody.robar(salafede);
 
                 Console.WriteLine();
             }
 
-            Console.WriteLine($"{p1.Nombre} Poder Final: {p1.Poder}");
-            Console.WriteLine($"{p2.Nombre} Poder Final: {p2.Poder}");
+            Console.WriteLine($"{Fede.Nombre} Poder Final: {Fede.Poder}");
+            Console.WriteLine($"{Cody.Nombre} Poder Final: {Cody.Poder}");
+ 
 
-            if (p1.Poder > p2.Poder)
+            if (Fede.Poder > Cody.Poder)
             {
-                AnunciarGanador(p1);
+                ganadord(Fede);
             }
-            else if (p2.Poder > p1.Poder)
+            else if (Cody.Poder > Fede.Poder)
             {
-                AnunciarGanador(p2);
+                ganadord(Cody);
             }
             else
             {
-                Console.WriteLine("Hay empate");
-                Console.WriteLine($"Inventario de {p1.Nombre}:");
-                p1.MostrarInventario();
-                Console.WriteLine($"Inventario de {p2.Nombre}:");
-                p2.MostrarInventario();
+                Console.WriteLine("Hay un empate");
+                Console.WriteLine($"Inventario de {Fede.Nombre}:");
+                Fede.inventario();
+                Console.WriteLine($"Inventario de {Cody.Nombre}:");
+                Cody.inventario();
             }
 
             Console.ReadLine();
         }
 
-        static Sala GenerarSalaAleatoria(Random rand, string[] poolItems)
+        static Salas SalaAle(Random aleatorio, string[] items)
         {
-            int dificultad = rand.Next(5, 40);
-            string item = poolItems[rand.Next(poolItems.Length)];
-            int poderItem = rand.Next(2, 15);
-            return new Sala(dificultad, item, poderItem);
+            int dificultad = aleatorio.Next(40, 80); 
+            string item = items[aleatorio.Next(items.Length)];
+            int poderItem = aleatorio.Next(10, 30);
+            return new Salas(dificultad, item, poderItem);
         }
 
-        static void AnunciarGanador(Personaje ganador)
+        static void ganadord(Personaje ganador)
         {
             Console.WriteLine($"El ganador es: {ganador.Nombre}");
             Console.WriteLine($"Poder total: {ganador.Poder}");
-            ganador.MostrarInventario();
+            ganador.inventario();
         }
     }
 }
-
-
