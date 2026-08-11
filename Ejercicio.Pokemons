@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace ConsoleApp6
 {
@@ -6,7 +6,6 @@ namespace ConsoleApp6
     {
         public struct Pokemon
         {
-            
             public string nombre { get; set; }
             public int nivel { get; set; }
             public int ps { get; set; }
@@ -17,7 +16,6 @@ namespace ConsoleApp6
             public int velocidad { get; set; }
             public string estado { get; set; }
 
-           
             public Pokemon(string nombre, int nivel, int ps, int ataque, int defensa, int ae, int de, int velocidad, string estado)
             {
                 this.nombre = nombre;
@@ -34,13 +32,11 @@ namespace ConsoleApp6
 
         public struct Entrenador
         {
-            
             public string nombre { get; set; }
             public int pokedolares { get; set; }
             public string[] medallas { get; set; }
             public Pokemon[] equipo { get; set; }
 
-            
             public Entrenador(string nombre, int pokedolares, string[] medallas, Pokemon[] equipo)
             {
                 this.nombre = nombre;
@@ -49,8 +45,7 @@ namespace ConsoleApp6
                 this.equipo = equipo;
             }
 
-            //funciones
-            public int damenivel()
+            public int dnivel()
             {
                 int retorno = 0;
                 for (int i = 0; i <= 5; i++)
@@ -60,8 +55,7 @@ namespace ConsoleApp6
                 return retorno;
             }
 
-            // Cuenta cuantos Pokemon tienen un estado diferente a normal
-            public int ContarPokemonesConEstadoAlterado()
+            public int Contpokemonsalte()
             {
                 int contador = 0;
                 for (int i = 0; i < equipo.Length; i++)
@@ -75,22 +69,115 @@ namespace ConsoleApp6
             }
         }
 
-        // Funcion para comprar una pocion, usa ref porque Entrenador es un struct
-        static void ComprarPocion(ref Entrenador entrenador)
+
+        // Funcion para aplicar un efecto alterado mediante un menu
+        static void Aplicaefecto(ref Pokemon pokemon)
+        {
+            Console.WriteLine($"Seleccione el efecto alterado para {pokemon.nombre} ");
+            Console.WriteLine("1. Envenenado");
+            Console.WriteLine("2. Paralizado");
+            Console.WriteLine("3. Quemado");
+            Console.WriteLine("4. Dormido");
+            Console.WriteLine("5. Congelado");
+            Console.Write("Ingrese una opcion: ");
+
+            string opcion = Console.ReadLine();
+            string estadonuevo = "";
+
+            switch (opcion)
+            {
+                case "1": estadonuevo = "Envenenado";
+                break;
+            
+                case "2": estadonuevo = "Paralizado";
+                break;
+
+                case "3": estadonuevo = "Quemado"; 
+                break;
+
+                case "4": estadonuevo = "Dormido"; 
+                break;
+
+                case "5": estadonuevo = "Congelado";
+                break;
+
+                default: Console.WriteLine("Opcion invalida. No se aplicaron cambios.");
+                return;
+            }
+
+            if (pokemon.estado == "Normal")
+            {
+                pokemon.estado = estadonuevo;
+                Console.WriteLine($"{pokemon.nombre}, {pokemon.ps} PS esta {pokemon.estado}");
+            }
+            else
+            {
+                string estadoanterior = pokemon.estado;
+                pokemon.estado = estadonuevo;
+                Console.WriteLine($"{pokemon.nombre}, {pokemon.ps} PS paso de estar {estadoanterior} a {pokemon.estado}");
+            }
+        }
+
+        // Funcion que determina si un entrenador puede controlar a un Pokemon especifico
+        static bool Controlapokemon(Entrenador entrenador, Pokemon pokemon)
+        {
+     
+            int nivelMax = 20 + (entrenador.medallas.Length * 10);
+            if (nivelMax > 99)
+            {
+                nivelMax = 99;
+            }
+
+            return pokemon.nivel <= nivelMax;
+        }
+
+        //  Funcion que determina cual entrenador tiene mas Pokemon que no puede controlar
+        static Entrenador Masincortrolables(Entrenador e1, Entrenador e2)
+        {
+            int incontrolablese1 = 0;
+            int incontrolablese2 = 0;
+
+            foreach (Pokemon p in e1.equipo)
+            {
+                if (!Controlapokemon(e1, p))
+                {
+                    incontrolablese1++;
+                }
+            }
+
+            foreach (Pokemon p in e2.equipo)
+            {
+                if (!Controlapokemon(e2, p))
+                {
+                    incontrolablese2++;
+                }
+            }
+
+            if (incontrolablese1 >= incontrolablese2)
+            {
+                return e1;
+            }
+            return e2;
+        }
+
+        //Funcion para comprar pocion
+
+        static void Comprapocion
+            (ref Entrenador entrenador)
         {
             if (entrenador.pokedolares >= 200)
             {
                 entrenador.pokedolares -= 200;
-                Console.WriteLine($"{entrenador.nombre} compro una pocion.{entrenador.pokedolares} pokedolares restantes.");
+                Console.WriteLine($"{entrenador.nombre} compro una pocion. {entrenador.pokedolares} pokedolares restantes.");
             }
             else
             {
-                Console.WriteLine($"{entrenador.nombre} no se pudo comprar");
+                Console.WriteLine($"{entrenador.nombre} no se pudo comprar pocion");
             }
         }
 
-        // Funcion que compara medallas de dos entrenadores
-        static Entrenador CompararMedallas(Entrenador e1, Entrenador e2)
+        //Funcion para comparar medallas entre los 2 entrenadores
+        static Entrenador Comparamedallas(Entrenador e1, Entrenador e2)
         {
             if (e1.medallas.Length >= e2.medallas.Length)
             {
@@ -99,10 +186,11 @@ namespace ConsoleApp6
             return e2;
         }
 
-        // Funcion que devuelve al entrenador con mas Pokemon con estado alterado
-        static Entrenador MasPokemonesAlterados(Entrenador e1, Entrenador e2)
+        //Funcion para determinar quien tiene mas pokemones alterados
+
+        static Entrenador Maspokemonesalte(Entrenador e1, Entrenador e2)
         {
-            if (e1.ContarPokemonesConEstadoAlterado() >= e2.ContarPokemonesConEstadoAlterado())
+            if (e1.Contpokemonsalte() >= e2.Contpokemonsalte())
             {
                 return e1;
             }
@@ -111,7 +199,8 @@ namespace ConsoleApp6
 
         static void Main(string[] args)
         {
-            // lista de pokemons
+            //Creacion de Equipos 1 y 2
+
             Pokemon[] equipo1 = new Pokemon[]
             {
                 new Pokemon("Pikachu", 50, 150, 90, 55, 110, 50, 90, "Normal"),
@@ -122,48 +211,48 @@ namespace ConsoleApp6
                 new Pokemon("Gengar", 50, 130, 65, 60, 130, 110, 110, "Normal")
             };
 
-            // otra lista de pokemons
             Pokemon[] equipo2 = new Pokemon[]
-             {
+            {
                 new Pokemon("Dragonite", 52, 160, 134, 95, 70, 100, 80, "Normal"),
                 new Pokemon("Alakazam", 50, 140, 50, 70, 135, 115, 120, "Dormido"),
                 new Pokemon("Gyarados", 49, 200, 130, 60, 95, 85, 65, "Normal"),
                 new Pokemon("Rhydon", 53, 155, 110, 96, 83, 85, 45, "Normal"),
                 new Pokemon("Jolteon", 50, 135, 110, 100, 50, 70, 130, "Normal"),
                 new Pokemon("Starmie", 51, 145, 105, 75, 100, 90, 115, "Normal")
-             };
+            };
 
-            string[] medallas1 = new string[] { "Medalla Roca", "Medalla Cascada", "Medalla Trueno" };
-            string[] medallas2 = new string[] { "Medalla Roca", "Medalla Cascada" };
+            string[] medallas1 = new string[] { "Medalla Roca", "Medalla Cascada", "Medalla Trueno", }; 
+            string[] medallas2 = new string[] { "Medalla Roca", "Medalla Cascada", "Medalla Trueno"}; 
 
             Entrenador entrenador1 = new Entrenador("Ash", 500, medallas1, equipo1);
             Entrenador entrenador2 = new Entrenador("Pepe", 100, medallas2, equipo2);
 
+
             //  Comprar Pocion
 
-            ComprarPocion(ref entrenador1);
-            ComprarPocion(ref entrenador2);
+            Comprapocion(ref entrenador1);
+            Comprapocion(ref entrenador2);
             Console.WriteLine();
 
             //  Comparar Medallas
 
-            Entrenador conMasMedallas = CompararMedallas(entrenador1, entrenador2);
+            Entrenador conMasMedallas = Comparamedallas(entrenador1, entrenador2);
             Console.WriteLine($"El entrenador con mas medallas es: {conMasMedallas.nombre}");
             Console.WriteLine();
 
             //  Mayor cantidad de pokemones con estado alterado 
 
-            Entrenador conMasAlterados = MasPokemonesAlterados(entrenador1, entrenador2);
+            Entrenador conMasAlterados = Maspokemonesalte(entrenador1, entrenador2);
             Console.WriteLine($"El entrenador con mas pokemones con estado alterado es: {conMasAlterados.nombre}");
             Console.WriteLine();
 
             // Comparacion nivel
 
-            if (entrenador1.damenivel() > entrenador2.damenivel())
+            if (entrenador1.dnivel() > entrenador2.dnivel())
             {
                 Console.WriteLine(entrenador1.nombre + " Tiene mas nivel que: " + entrenador2.nombre);
             }
-            else if (entrenador2.damenivel() > entrenador1.damenivel())
+            else if (entrenador2.dnivel() > entrenador1.dnivel())
             {
                 Console.WriteLine(entrenador2.nombre + " Tiene mas nivel que: " + entrenador1.nombre);
             }
@@ -171,6 +260,24 @@ namespace ConsoleApp6
             {
                 Console.WriteLine("Tienen el mismo nivel");
             }
+
+            Console.WriteLine();
+
+            //  Aplicar estado alterado (se pasa ref para alterar al Pokemon dentro del equipo)
+            Aplicaefecto(ref entrenador1.equipo[0]); 
+            Console.WriteLine();
+            Aplicaefecto(ref entrenador1.equipo[0]); 
+            Console.WriteLine();
+
+            // Control individual
+            bool puede = Controlapokemon(entrenador1, entrenador1.equipo[0]);
+            Console.WriteLine($"{entrenador1.nombre} {(puede ? "puede" : "no puede")} controlar a {entrenador1.equipo[0].nombre} (Nivel {entrenador1.equipo[0].nivel})");
+            Console.WriteLine();
+
+            // Entrenador con más incontrolables
+            Entrenador masobedie = Masincortrolables(entrenador1, entrenador2);
+            Console.WriteLine($"El entrenador con mas pokemon que no puede controlar es: {masobedie.nombre}");
+            Console.WriteLine();
         }
     }
 }
