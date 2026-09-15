@@ -59,7 +59,7 @@ namespace ConsoleApp1
             }
         }
 
-
+        // 1.
         public int ObtenerMinimo()
         {
             if (raiz == null)
@@ -72,7 +72,7 @@ namespace ConsoleApp1
             }
             return actual.valor;
         }
-
+    
         public int ObtenerMaximo()
         {
             if (raiz == null)
@@ -86,7 +86,7 @@ namespace ConsoleApp1
             return actual.valor;
         }
 
-
+        // 2.
         public int ObtenerCantidadNodos()
         {
             return ContarNodosRecursivo(raiz);
@@ -97,7 +97,7 @@ namespace ConsoleApp1
             if (nodo == null) return 0;
             return 1 + ContarNodosRecursivo(nodo.izquierdo) + ContarNodosRecursivo(nodo.derecho);
         }
-
+        // 3.
         public int ObtenerAltura()
         {
             return ObtenerAlturaRecursivo(raiz);
@@ -113,7 +113,7 @@ namespace ConsoleApp1
             return 1 + Math.Max(altIzq, altDer);
         }
 
-        // 4. ContarHojas
+        // 4. 
         public int ContarHojas()
         {
             return ContarHojasRecursivo(raiz);
@@ -127,7 +127,7 @@ namespace ConsoleApp1
             return ContarHojasRecursivo(nodo.izquierdo) + ContarHojasRecursivo(nodo.derecho);
         }
 
-        // 5. Eliminar
+        // 5. 
         public void Eliminar(int valor)
         {
             raiz = EliminarRecursivo(raiz, valor);
@@ -171,7 +171,7 @@ namespace ConsoleApp1
             return min;
         }
 
-        // 6. EsValido
+        // 6. 
         public bool EsValido()
         {
             return EsValidoRecursivo(raiz, null, null);
