@@ -148,6 +148,27 @@
         }
 
 
+ // La busqueda binaria iterativa es la mas eficiente porque divide los datos a la mitad en cada paso.
+ // Esto permite encontrar un elemento entre un millon de registros en un maximo de veinte intentos, mientras que los metodos secuenciales pueden usar un millon de operaciones.
+ // Al ejecutarse mediante un bucle simple, ahorra mas memoria que la recursiva, teniendo como unico requisito que la lista este previamente ordenada.
+ // Pero el resultado final de cual es la mas eficiente se define en:
+ // Si tus datos ya estan ordenados en memoria ram, la busqueda binaria iterativa es la mejor opcion.
+ // Si tus datos estan desordenados una busqueda secuencial optimizada suele ser mas eficiente
+
+
+
+
+
+ // El metodo mas eficiente es el QuickSort.
+ // Usa indices directamente sobre el arreglo original optimiza la memoria.
+ // Mucho mejor que algoritmos como Burbuja, Seleccion o Insercion, que son lentos al comparar elemento por elemento.
+
+
+
+
+
+ //La complejidad algorítmica es una métrica matemática que evalúa cuántos recursos consume un algoritmo a medida que crece el volumen de datos de entrada.
+ //Este análisis se enfoca en la eficiencia relativa y el escalado del código
 
 
 
