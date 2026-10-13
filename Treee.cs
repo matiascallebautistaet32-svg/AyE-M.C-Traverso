@@ -59,7 +59,7 @@ namespace ConsoleApp3
 
             if (idBusc == nodoA.agente.id)
             {
-                return $"Agente encontrado: {nodoA.agente.nombre_agente} {nodoA.agente.tipo_agente} ";
+                return $"Agente encontrado: Nombre:{nodoA.agente.nombre_agente} Tipo:{nodoA.agente.tipo_agente} Pais:{nodoA.agente.nacionalidad} Fecha de Lanzamiento:{nodoA.agente.fecha_lanzamiento}";
             }
 
             if (idBusc < nodoA.agente.id)
