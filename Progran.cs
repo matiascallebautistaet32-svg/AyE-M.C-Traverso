@@ -31,12 +31,12 @@ namespace ConsoleApp3
                 Console.WriteLine("2- Eliminar");
                 Console.WriteLine("3- Actualizar");
                 Console.WriteLine("4- Buscar");
-                Console.WriteLine("5- Finalizar");
+                Console.WriteLine("5- Cerrar");
 
                 string inp = Console.ReadLine();
                 if (!int.TryParse(inp, out decision))
                 {
-                    Console.WriteLine("Por favor, ingrese un numero valido.");
+                    Console.WriteLine("Ingrese un numero valido.");
                     continue;
                 }
 
