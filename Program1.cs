@@ -55,25 +55,9 @@
             {
                 Console.WriteLine("No se encontro el numero");
             }
-        }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-       
+            
         //La busqueda secuencial no tiene condiciciones: el arreglo puede estar completamente desordenado porque el algoritmo revisa los elementos uno por uno.
         static int Busqueda_Secuencial_Simple(int[] numeros, int buscar)
         {
@@ -159,35 +143,228 @@
 
 
 
- // El metodo mas eficiente es el QuickSort.
- // Usa indices directamente sobre el arreglo original optimiza la memoria.
- // Mucho mejor que algoritmos como Burbuja, Seleccion o Insercion, que son lentos al comparar elemento por elemento.
+ // BURBUJA CLÁSICO
+            // Explicación: Compara números que están juntos y los intercambia si están desordenados.
+            // Condición: No necesita ninguna condición especial.
+            // Complejidad algorítmica: O(n²).
+            void Burbuja_clasico(int[] NumerosDesordenados)
+            {
+                // FOR ANIDADO QUE SIRVE PARA ORDENAR LA LISTA
+                for (int j = 0; j < NumerosDesordenados.Length - 1; j++)
+                {
+                    for (int i = 0; i < NumerosDesordenados.Length - 1; i++)
+                    {
+                        if (NumerosDesordenados[i] > NumerosDesordenados[i + 1])
+                        {
+                            // CREO UN AUXILIAR YA QUE SI AL ASIGNARLE NUMEROSDESORDENADOS[I] A NUMEROSDESORDENADOS[I+1], TENDRIA 
+                            // EL MISMO VALOR YA QUE ANTES HICE NumerosDesordenados[i] = NumerosDesordenados[i + 1];
+                            int Aux = NumerosDesordenados[i];
+                            NumerosDesordenados[i] = NumerosDesordenados[i + 1];
+                            NumerosDesordenados[i + 1] = Aux;
+                        }
+                    }
+                }
+                // OTRO FOR QUE IMPRIME LA LISTA YA ORDENADA EN LA CONSOLA
+                for (int x = 0; x < NumerosDesordenados.Length; x++)
+                {
+                    Console.WriteLine(NumerosDesordenados[x]);
+                }
+            }
+            // BURBUJA OPTIMIZADO
+            // Explicación: Funciona como la burbuja clásica, pero deja de ordenar
+            // cuando detecta que ya no hubo ningún intercambio.
+            // Condición: No necesita ninguna condición especial.
+            // Complejidad algorítmica: O(n²) en el peor caso.
+            void Burbuja_optimizado(int[] NumerosDesordenados)
+            {
+                // FOR ANIDADO QUE SIRVE PARA ORDENAR LA LISTA
+                for (int j = 0; j < NumerosDesordenados.Length - 1; j++)
+                {
+                    // CREO UNA VARIABLE BOOLEANA LLAMADA ESTA DESORDENADA, LA CUAL EN CADA PASADA VA A VERIFICAR SI HUBO UN INTERCAMBIO
+                    // SI HUBO UN INTERCAMBIO PASA A TRUE, SI NO SE QUEDA EN FALSE. AL FINAL DEL FOR, VERIFICA SI ESTAORDENADA ES FALSE, EN ESE CASO
+                    // ROMPE EL FOR YA QUE SIGNIFICA QUE ESTA TODO ORDENADO
+                    bool EstaDesordenado = false;
+                    for (int i = 0; i < NumerosDesordenados.Length - 1; i++)
+                    {
+                        if (NumerosDesordenados[i] > NumerosDesordenados[i + 1])
+                        {
+                            // CREO UN AUXILIAR YA QUE SI AL ASIGNARLE NUMEROSDESORDENADOS[I] A NUMEROSDESORDENADOS[I+1], TENDRIA 
+                            // EL MISMO VALOR YA QUE ANTES HICE NumerosDesordenados[i] = NumerosDesordenados[i + 1];
+                            int Aux = NumerosDesordenados[i];
+                            NumerosDesordenados[i] = NumerosDesordenados[i + 1];
+                            NumerosDesordenados[i + 1] = Aux;
+                            EstaDesordenado = true;
+                        }
+                    }
+                    if (EstaDesordenado == false)
+                    {
+                        break;
+                    }
+                }
+                // OTRO FOR QUE IMPRIME LA LISTA YA ORDENADA EN LA CONSOLA
+                for (int x = 0; x < NumerosDesordenados.Length; x++)
+                {
+                    Console.WriteLine(NumerosDesordenados[x]);
+                }
 
+            }
+            // SELECCIÓN
+            // Explicación: Busca el número menor y lo coloca en la primera posición disponible.
+            // Condición: No necesita que la lista esté ordenada.
+            // Complejidad algorítmica: O(n²).
+            void Seleccion(int[] NumerosDesordenados)
+            {
+                int[] numeros = { 5, 2, 8, 1, 3 };
 
+                for (int i = 0; i < numeros.Length - 1; i++)
+                {
+                    int menor = i;
 
+                    for (int j = i + 1; j < numeros.Length; j++)
+                    {
+                        if (numeros[j] < numeros[menor])
+                        {
+                            menor = j;
+                        }
+                    }
 
+                    int aux = numeros[i];
+                    numeros[i] = numeros[menor];
+                    numeros[menor] = aux;
+                }
 
- //La complejidad algorítmica es una métrica matemática que evalúa cuántos recursos consume un algoritmo a medida que crece el volumen de datos de entrada.
- //Este análisis se enfoca en la eficiencia relativa y el escalado del código
+                foreach (int numero in numeros)
+                {
+                    Console.WriteLine(numero);
+                }
 
+            }
+            // INSERCIÓN
+            // Explicación: Va tomando cada elemento y lo coloca en la posición correcta
+            // dentro de la parte que ya está ordenada.
+            // Condición: No necesita que la lista esté ordenada.
+            // Complejidad algorítmica: O(n²) en el peor caso.
+            void Insercion(int[] NumerosDesordenados)
+            {
+                for (int i = 1; i < NumerosDesordenados.Length - 1; i++)
+                {
+                    int Auxiliar = NumerosDesordenados[i]; // 7
+                    for (int j = i; j >= 0; j--) // primera vuelta: j vale 1
+                    {
+                        if (Auxiliar > NumerosDesordenados[j])// 7 es mayor que 7?
+                        {
+                            NumerosDesordenados[j + 1] = NumerosDesordenados[j];
+                        }
+                        else if (Auxiliar < NumerosDesordenados[j] || NumerosDesordenados[j] == NumerosDesordenados[0])// va aca
+                        {
+                            NumerosDesordenados[j] = Auxiliar;
+                            break;
+                        }
 
+                    }
+                }
+                for (int x = 0; x < NumerosDesordenados.Length - 1; x++)
+                {
+                    Console.WriteLine(NumerosDesordenados[x]);
+                }
+            }
+            // QUICKSORT
+            // Explicación: Elige un elemento llamado pivote y separa los números
+            // en menores y mayores que él.
+            // Condición: No necesita que la lista esté ordenada.
+            // Complejidad algorítmica: O(n log n) en promedio.
+            void QuickSort(int[] numeros, int inicio, int fin)
+            {
+                if (inicio >= fin)
+                    return;
 
+                int i = inicio;
+                int j = fin;
+                int pivote = numeros[(inicio + fin) / 2];
 
+                while (i <= j)
+                {
+                    while (numeros[i] < pivote)
+                        i++;
 
+                    while (numeros[j] > pivote)
+                        j--;
 
+                    if (i <= j)
+                    {
+                        int aux = numeros[i];
+                        numeros[i] = numeros[j];
+                        numeros[j] = aux;
 
+                        i++;
+                        j--;
+                    }
+                }
 
+                QuickSort(numeros, inicio, j);
+                QuickSort(numeros, i, fin);
+            }
+            // BOGOSORT
+            // Explicación: Mezcla los números al azar hasta que quedan ordenados.
+            // Condición: No necesita que la lista esté ordenada.
+            // Complejidad algorítmica: O(n × n!) aproximadamente.
+            void Bogosort(int[] NumerosDesordenados)
+            {
+                Random random = new Random();
 
+                while (true)
+                {
+                    // Mezclar
+                    for (int i = 0; i < NumerosDesordenados.Length; i++)
+                    {
+                        int j = random.Next(NumerosDesordenados.Length);
 
+                        int aux = NumerosDesordenados[i];
+                        NumerosDesordenados[i] = NumerosDesordenados[j];
+                        NumerosDesordenados[j] = aux;
+                    }
 
+                    // Comprobar si está ordenado
+                    bool ordenado = true;
 
+                    for (int i = 0; i < NumerosDesordenados.Length - 1; i++)
+                    {
+                        if (NumerosDesordenados[i] > NumerosDesordenados[i + 1])
+                        {
+                            ordenado = false;
+                            break;
+                        }
+                    }
 
+                    if (ordenado)
+                        break;
+                }
+            }
+            // STALINSORT
+            // Explicación: Recorre la lista y elimina los elementos que están
+            // fuera de orden respecto al anterior.
+            // Condición: La lista puede estar desordenada.
+            // Complejidad algorítmica: O(n).
+            void Stalin(int[] numeros)
+            {
 
+                int anterior = numeros[0];
 
-
-
-
-
+                for (int i = 1; i < numeros.Length; i++)
+                {
+                    if (numeros[i] >= anterior)
+                    {
+                        anterior = numeros[i];
+                        Console.WriteLine(numeros[i]);
+                    }
+                }
+            }
+            // La búsqueda binaria, porque en cada paso descarta aproximadamente
+            // la mitad de la lista. Su complejidad es O(log n).
+            // De los ordenamientos que usamos, QuickSort suele ser el más eficiente
+            // en promedio, con una complejidad de O(n log n).
+            // Es una forma de medir cuánto tiempo o recursos necesita un algoritmo
+            // a medida que aumenta la cantidad de elementos que tiene que procesar.
+        }
     }
 }
-        
